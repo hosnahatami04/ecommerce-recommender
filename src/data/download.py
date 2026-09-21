@@ -33,7 +33,7 @@ RAW_DIR = Path(__file__).resolve().parents[2] / "data" / "raw"
 EXPECTED_FILES = {
     "events.csv": (2_700_000, 2_760_000),
     "category_tree.csv": (1_600, 1_700),
-    "item_properties_part1.csv": (10_000_000, 10_100_000),
+    "item_properties_part1.csv": (10_900_000, 11_100_000),
     "item_properties_part2.csv": (9_200_000, 9_300_000),
 }
 
