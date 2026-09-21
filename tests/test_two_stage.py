@@ -49,6 +49,13 @@ def test_two_stage_model_recommends_within_pool_size() -> None:
     recs = model.recommend(user_id=1, k=5)
     assert len(recs) <= 5
 
+    detailed = model.recommend_detailed(user_id=1, k=5)
+    assert len(detailed) == len(recs)
+    for row in detailed:
+        assert row["source"] in {"als", "popularity_fallback"}
+        assert isinstance(row["rerank_moved"], bool)
+        assert isinstance(row["score"], float)
+
 
 def test_two_stage_model_empty_candidates_returns_empty_list() -> None:
     history = _toy_history()
@@ -61,3 +68,4 @@ def test_two_stage_model_empty_candidates_returns_empty_list() -> None:
     # Unknown user + empty popularity model -> no candidates at all.
     recs = model.recommend(user_id=9999, k=5)
     assert recs == []
+    assert model.recommend_detailed(user_id=9999, k=5) == []
