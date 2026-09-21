@@ -25,3 +25,6 @@ jobs:
 
       - name: Test (pytest)
         run: pytest -q
+
+      - name: Regression gate (popularity Recall@10)
+        run: python -m src.eval.check_regression
