@@ -1,0 +1,23 @@
+{
+  "n_events": 2755641,
+  "events_by_type": {
+    "view": 2664218,
+    "addtocart": 68966,
+    "transaction": 22457
+  },
+  "n_unique_users": 1407580,
+  "n_unique_items": 235061,
+  "matrix_sparsity_pct": 0.0008328541823788346,
+  "events_per_user": {
+    "mean": 1.9577153696415124,
+    "median": 1.0,
+    "min": 1,
+    "max": 7757,
+    "p25": 1.0,
+    "p75": 2.0,
+    "n_users_with_1_event": 1001591,
+    "n_users_with_3plus_events": 199983
+  },
+  "timestamp_min": 1430622004384,
+  "timestamp_max": 1442545187788
+}
