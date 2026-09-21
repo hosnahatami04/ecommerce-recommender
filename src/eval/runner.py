@@ -38,6 +38,7 @@ def evaluate_model(
     k_values: tuple[int, ...] = (10, 20),
     exclude_seen: bool = True,
     candidate_pool_size: int = 200,
+    user_subset: set[int] | None = None,
 ) -> dict:
     """Run `model` through the fixed evaluation protocol.
 
@@ -46,10 +47,17 @@ def evaluate_model(
     then compute Recall@k and NDCG@k for each k in k_values. Coverage and
     popularity-bias are computed once over each user's max(k_values)
     truncated list.
+
+    user_subset, if given, restricts evaluation to that subset of
+    otherwise-eligible users (e.g. one cold-start segment) while
+    popularity ranks are still computed from the full train_events, so
+    "popular" means the same thing across every segment.
     """
     relevant_by_user = build_relevant_items(test_events)
     seen_by_user = seen_items_by_user(train_events)
     users = sorted(eligible_users(test_events))
+    if user_subset is not None:
+        users = [u for u in users if u in user_subset]
 
     item_counts = Counter(train_events["itemid"])
     popularity_rank = compute_popularity_percentiles(item_counts)

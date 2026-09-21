@@ -61,7 +61,7 @@ class ALSModel:
             filter_already_liked_items=False,
         )
         return [
-            self.interaction_matrix.idx_to_item_id[idx]
+            int(self.interaction_matrix.idx_to_item_id[idx])
             for idx in item_indices
             if idx in self.interaction_matrix.idx_to_item_id
         ]
