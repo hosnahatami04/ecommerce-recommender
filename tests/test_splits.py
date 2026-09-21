@@ -41,3 +41,43 @@ def test_split_partitions_all_rows_exactly_once() -> None:
 def test_load_split_config_reads_real_config() -> None:
     config = splits.load_split_config()
     assert config["val_start_ms"] < config["test_start_ms"]
+
+
+def test_reranker_label_start_precedes_val_start() -> None:
+    config = splits.load_split_config()
+    assert config["reranker_label_start_ms"] < config["val_start_ms"]
+
+
+def test_split_train_for_reranker_partitions_train_only() -> None:
+    train = pd.DataFrame(
+        {
+            "timestamp": [10, 20, 50, 60, 90],
+            "visitorid": [1] * 5,
+            "event": ["view"] * 5,
+            "itemid": list(range(5)),
+        }
+    )
+    config = {"reranker_label_start_ms": 55}
+    sub_train, label_window = splits.split_train_for_reranker(train, config=config)
+
+    assert len(sub_train) + len(label_window) == len(train)
+    assert sub_train["timestamp"].max() < 55
+    assert label_window["timestamp"].min() >= 55
+
+
+def test_split_train_for_reranker_never_sees_validation_or_test() -> None:
+    # sub_train/label_window are built only from what's passed in as
+    # train_events -- this test documents that validation/test rows
+    # have no path into the function at all.
+    train = pd.DataFrame(
+        {"timestamp": [10, 20], "visitorid": [1, 1], "event": ["view", "view"], "itemid": [1, 2]}
+    )
+    validation = pd.DataFrame(
+        {"timestamp": [30], "visitorid": [1], "event": ["view"], "itemid": [99]}
+    )
+    config = {"reranker_label_start_ms": 15}
+
+    sub_train, label_window = splits.split_train_for_reranker(train, config=config)
+    all_items = set(sub_train["itemid"]) | set(label_window["itemid"])
+    assert 99 not in all_items
+    del validation

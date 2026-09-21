@@ -3,5 +3,7 @@
   "test_start_ms": 1441348187788,
   "val_start_iso": "2015-08-21T06:29:47.788",
   "test_start_iso": "2015-09-04T06:29:47.788",
-  "description": "Train: [min_timestamp, val_start_ms). Validation: [val_start_ms, test_start_ms). Test: [test_start_ms, max_timestamp]. Boundaries fixed at the last two 2-week windows of the dataset, computed from the real min/max event timestamps."
+  "reranker_label_start_ms": 1438928987788,
+  "reranker_label_start_iso": "2015-08-07T06:29:47.788",
+  "description": "Train: [min_timestamp, val_start_ms). Validation: [val_start_ms, test_start_ms). Test: [test_start_ms, max_timestamp]. Boundaries fixed at the last two 2-week windows of the dataset, computed from the real min/max event timestamps. reranker_label_start_ms further splits the train window in two, entirely within train: sub-train [min_timestamp, reranker_label_start_ms) is used to fit ALS for generating the reranker's own labeled training data, and the label window [reranker_label_start_ms, val_start_ms) is used to generate candidates and label them by actual interaction -- this never touches validation or test."
 }

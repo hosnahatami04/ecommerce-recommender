@@ -46,3 +46,26 @@ def split_events(
         validation.reset_index(drop=True),
         test.reset_index(drop=True),
     )
+
+
+def split_train_for_reranker(
+    train_events: pd.DataFrame, config: dict | None = None
+) -> tuple[pd.DataFrame, pd.DataFrame]:
+    """Split the training window into (sub_train, label_window) for reranker labeling.
+
+    The reranker needs its own supervised training data, and it must
+    not be the validation or test set. sub_train is used to fit an ALS
+    model; label_window is used to generate candidates for that ALS
+    model and label them by whether the user actually interacted with
+    them during label_window. Both pieces come entirely from the
+    original train split -- validation and test are never touched.
+    """
+    if config is None:
+        config = load_split_config()
+
+    label_start = config["reranker_label_start_ms"]
+
+    sub_train = train_events[train_events["timestamp"] < label_start]
+    label_window = train_events[train_events["timestamp"] >= label_start]
+
+    return sub_train.reset_index(drop=True), label_window.reset_index(drop=True)
