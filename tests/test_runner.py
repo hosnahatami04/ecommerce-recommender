@@ -42,3 +42,23 @@ def test_evaluate_model_only_scores_eligible_users() -> None:
     model = PopularityModel().fit(train)
     results = evaluate_model(model, train, test, catalog_size=3, k_values=(1,))
     assert results["n_users_evaluated"] == 1
+
+
+def test_evaluate_model_respects_user_subset() -> None:
+    train = pd.DataFrame({"visitorid": [1, 2], "itemid": [10, 20], "timestamp": [1, 1]})
+    test = pd.DataFrame({"visitorid": [1, 2], "itemid": [10, 20], "timestamp": [2, 2]})
+
+    model = PopularityModel().fit(train)
+    results = evaluate_model(
+        model, train, test, catalog_size=2, k_values=(1,), user_subset={1}
+    )
+    assert results["n_users_evaluated"] == 1
+
+
+def test_evaluate_model_user_subset_none_scores_everyone() -> None:
+    train = pd.DataFrame({"visitorid": [1, 2], "itemid": [10, 20], "timestamp": [1, 1]})
+    test = pd.DataFrame({"visitorid": [1, 2], "itemid": [10, 20], "timestamp": [2, 2]})
+
+    model = PopularityModel().fit(train)
+    results = evaluate_model(model, train, test, catalog_size=2, k_values=(1,), user_subset=None)
+    assert results["n_users_evaluated"] == 2
