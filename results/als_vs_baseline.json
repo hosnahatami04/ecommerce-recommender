@@ -1,0 +1,18 @@
+{
+  "note": "Direct comparison of the Layer 1 popularity baseline against the Layer 2 ALS model, both evaluated on the same test set under the same protocol.",
+  "popularity": {
+    "recall_at_10": 0.008489074347903981,
+    "recall_at_20": 0.011056418742633165,
+    "ndcg_at_10": 0.004491358634177281,
+    "coverage_at_10": 7.657586754076601e-05,
+    "popularity_bias_at_10": 0.9999791263483234
+  },
+  "als": {
+    "recall_at_10": 0.0007976487406196572,
+    "recall_at_20": 0.001136838872602768,
+    "ndcg_at_10": 0.0005198725780415387,
+    "coverage_at_10": 0.01045260591931456,
+    "popularity_bias_at_10": 0.9957728331633998
+  },
+  "finding": "ALS scores roughly 10x lower on Recall@10 and NDCG@10 than the plain popularity baseline, but recommends across ~135x more of the catalog (coverage@10: 1.05% vs 0.0077%) with marginally lower popularity bias. This is consistent with the corpus statistics from Phase 2: the median user has only 1 training event, leaving ALS very little signal to personalize from, while a fixed bestseller list wins on accuracy simply because it always recommends items with real test-period demand. The honest conclusion for this dataset is that collaborative filtering alone does not beat the popularity baseline on accuracy at this sparsity level -- personalization gains, if any, will need to come from the two-stage reranker (Phase 4) combining ALS's broader reach with explicit features, not from ALS alone."
+}
