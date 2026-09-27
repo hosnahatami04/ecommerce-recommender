@@ -71,3 +71,11 @@ def test_matrix_id_index_mappings_are_consistent() -> None:
         assert im.user_ids[idx] == uid
     for iid, idx in im.item_id_to_idx.items():
         assert im.idx_to_item_id[idx] == iid
+
+
+def test_matrix_accepts_weights_override() -> None:
+    train = pd.DataFrame({"visitorid": [1], "itemid": [10], "event": ["view"]})
+    im = build_interaction_matrix(train, weights={"view": 99})
+    user_idx = im.user_id_to_idx[1]
+    item_idx = im.item_id_to_idx[10]
+    assert im.matrix[user_idx, item_idx] == 99

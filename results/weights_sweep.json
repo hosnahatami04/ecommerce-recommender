@@ -1,0 +1,64 @@
+{
+  "grid": [
+    {
+      "name": "default (1/3/5)",
+      "weights": {
+        "view": 1,
+        "addtocart": 3,
+        "transaction": 5
+      },
+      "val_recall_at_10": 0.0014038849764253496,
+      "val_ndcg_at_10": 0.0009527051954057173
+    },
+    {
+      "name": "purchase-heavy (1/3/10)",
+      "weights": {
+        "view": 1,
+        "addtocart": 3,
+        "transaction": 10
+      },
+      "val_recall_at_10": 0.0013494993976380751,
+      "val_ndcg_at_10": 0.0009295364860477935
+    },
+    {
+      "name": "cart-and-purchase-heavy (1/5/10)",
+      "weights": {
+        "view": 1,
+        "addtocart": 5,
+        "transaction": 10
+      },
+      "val_recall_at_10": 0.0013731691300341556,
+      "val_ndcg_at_10": 0.0009382068333953677
+    },
+    {
+      "name": "purchase-only (0/0/1)",
+      "weights": {
+        "view": 0,
+        "addtocart": 0,
+        "transaction": 1
+      },
+      "val_recall_at_10": 6.865044109392164e-06,
+      "val_ndcg_at_10": 1.0749413552193509e-05
+    },
+    {
+      "name": "log-scaled-ish (1/2/3)",
+      "weights": {
+        "view": 1,
+        "addtocart": 2,
+        "transaction": 3
+      },
+      "val_recall_at_10": 0.0013244919000987639,
+      "val_ndcg_at_10": 0.0009162289632784904
+    }
+  ],
+  "best": {
+    "name": "default (1/3/5)",
+    "weights": {
+      "view": 1,
+      "addtocart": 3,
+      "transaction": 5
+    },
+    "val_recall_at_10": 0.0014038849764253496,
+    "val_ndcg_at_10": 0.0009527051954057173
+  }
+}
