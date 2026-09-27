@@ -69,7 +69,7 @@ trained on leakage-safe labels, using features stage 1 can't see
 
 ## Demo video
 
-*Video coming soon — recorded by the repository owner, link to be added here.*
+[![Demo video](docs/demo-thumbnail.png)](https://youtu.be/Ii3gqV2zkkg)
 
 ## Installation
 
