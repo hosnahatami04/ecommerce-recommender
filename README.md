@@ -2,16 +2,6 @@
 
 Three layers of recommendation, honestly evaluated on real e-commerce behavior.
 
-## Outline
-
-- [What this is](#what-this-is)
-- [Architecture](#architecture)
-- [Demo video](#demo-video)
-- [Installation — users](#installation--users)
-- [Installation — developers](#installation--developers)
-- [Contributor expectations](#contributor-expectations)
-- [Known issues](#known-issues)
-
 ## What this is
 
 Give it a user ID, get back a ranked list of products that user is most
@@ -74,23 +64,27 @@ trained on leakage-safe labels, using features stage 1 can't see
 
 *Video coming soon — recorded by the repository owner, link to be added here.*
 
-## Installation — users
-
-Run the API in Docker. No Python environment needed.
+## Installation
 
 ```bash
 git clone https://github.com/hosnahatami04/ecommerce-recommender.git
 cd ecommerce-recommender
 
+python -m venv .venv
+.venv/Scripts/activate   # Windows; use `source .venv/bin/activate` on macOS/Linux
+pip install -r requirements.txt
+
 # Download the dataset (free Kaggle account + API token required,
 # or download manually -- see src/data/download.py for the fallback)
-pip install kaggle
 python -m src.data.download
+
+make test    # pytest -q
+make lint    # ruff check .
 
 # Train the serving model (takes ~15-20 minutes on CPU)
 python -m src.eval.train_serving_model
 
-# Build and run
+# Build and run the API in Docker
 docker build -t ecommerce-recommender .
 docker run -p 8000:8000 ecommerce-recommender
 ```
@@ -104,23 +98,6 @@ curl http://localhost:8000/recommend/1?k=10
 
 Unknown users get a `fallback: true` response with popularity-based
 recommendations instead of an error — see [Known issues](#known-issues).
-
-## Installation — developers
-
-```bash
-git clone https://github.com/hosnahatami04/ecommerce-recommender.git
-cd ecommerce-recommender
-
-python -m venv .venv
-.venv/Scripts/activate   # Windows; use `source .venv/bin/activate` on macOS/Linux
-pip install -r requirements.txt
-
-# Dataset (see Installation -- users above)
-python -m src.data.download
-
-make test    # pytest -q
-make lint    # ruff check .
-```
 
 To retrain and re-run the full evaluation:
 
