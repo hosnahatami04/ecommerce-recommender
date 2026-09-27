@@ -41,15 +41,22 @@ side-by-side illustration of two real users are in
 
 ```mermaid
 flowchart LR
-    A[User ID] --> B{Known to ALS?}
-    B -- yes --> C[ALS retrieves up to 200 candidates]
-    B -- no --> D[Popularity fallback fills candidates]
-    C --> E
-    D --> E[LightGBM reranks candidates]
-    E --> F[Top-K recommendations]
+    A(["User ID"]) --> B{"Known to ALS?"}
+    B -- yes --> C["ALS retrieves up to<br/>200 candidates"]
+    B -- no --> D["Popularity fallback<br/>fills candidates"]
+    C --> E["LightGBM reranks<br/>candidates"]
+    D --> E
+    E --> F(["Top-K recommendations"])
 
-    style B fill:#e4efe8,stroke:#2f6b52
-    style E fill:#e4efe8,stroke:#2f6b52
+    classDef input fill:#2f6b52,stroke:#1e4636,color:#ffffff,stroke-width:2px
+    classDef decision fill:#f1efe7,stroke:#a5580f,color:#24211c,stroke-width:2px
+    classDef stage fill:#e4efe8,stroke:#2f6b52,color:#24211c,stroke-width:2px
+    classDef output fill:#2f6b52,stroke:#1e4636,color:#ffffff,stroke-width:2px
+
+    class A input
+    class B decision
+    class C,D,E stage
+    class F output
 ```
 
 Stage 1 (retrieval) is fast and approximate: ALS matrix factorization
