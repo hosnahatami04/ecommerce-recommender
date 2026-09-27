@@ -27,8 +27,8 @@ class ALSModel:
         self.model: AlternatingLeastSquares | None = None
         self.interaction_matrix: InteractionMatrix | None = None
 
-    def fit(self, train_events) -> "ALSModel":
-        self.interaction_matrix = build_interaction_matrix(train_events)
+    def fit(self, train_events, weights: dict[str, int] | None = None) -> "ALSModel":
+        self.interaction_matrix = build_interaction_matrix(train_events, weights=weights)
         self.model = AlternatingLeastSquares(
             factors=self.factors,
             regularization=self.regularization,

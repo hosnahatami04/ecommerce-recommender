@@ -34,14 +34,20 @@ class InteractionMatrix:
         return len(self.item_ids)
 
 
-def build_interaction_matrix(train_events: pd.DataFrame) -> InteractionMatrix:
+def build_interaction_matrix(
+    train_events: pd.DataFrame, weights: dict[str, int] | None = None
+) -> InteractionMatrix:
     """Build a confidence-weighted sparse user x item matrix from training events only.
 
     Weights are summed when a user has multiple events on the same item
     (e.g. viewed twice and added to cart once) — repeated interaction is
     itself a stronger signal of interest.
+
+    weights overrides config/weights.json when given -- used to sweep
+    alternative event-weighting schemes without touching the committed
+    default.
     """
-    weighted = apply_weights(train_events)
+    weighted = apply_weights(train_events, weights=weights)
 
     user_ids = np.sort(weighted["visitorid"].unique())
     item_ids = np.sort(weighted["itemid"].unique())
