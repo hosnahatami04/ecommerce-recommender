@@ -46,9 +46,9 @@ useless.
 
 **The two-stage model is the most consistent performer across every
 segment.** It never collapses to zero (the popularity fallback in
-candidate generation rescues cold users) while still beating the
-baseline in the 0 and 11+ segments and staying competitive with plain
-ALS everywhere else. This is the practical case for the two-stage
+candidate generation rescues cold users) and it beats the
+popularity baseline in every segment, though plain ALS stays ahead of
+it whenever a user has any training history. This is the practical case for the two-stage
 architecture: no single one of the three models is best in every
 segment, but the combination degrades most gracefully.
 

@@ -25,7 +25,10 @@ For every user with any history at all, ALS actually beats the
 baseline. The full two-stage model (ALS retrieve + LightGBM rerank)
 is the only one of the three that performs reasonably across the
 entire population, cold users included, and it's the only model that
-beats the popularity baseline on every headline metric:
+beats the popularity baseline on every headline metric. It is not the
+best model everywhere: for users with any history, plain ALS still
+scores higher Recall@10 than the two-stage model in every segment.
+
 
 | Model | Recall@10 | Recall@20 | NDCG@10 | Coverage@10 | Pop-bias@10 |
 |---|---|---|---|---|---|
@@ -78,7 +81,7 @@ git clone https://github.com/hosnahatami04/ecommerce-recommender.git
 cd ecommerce-recommender
 
 python -m venv .venv
-.venv/Scripts/activate   # Windows; use `source .venv/bin/activate` on macOS/Linux
+.venv\Scripts\activate   # Windows; use `source .venv/bin/activate` on macOS/Linux
 pip install -r requirements.txt
 
 # Download the dataset (free Kaggle account + API token required,
